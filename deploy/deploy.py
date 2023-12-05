@@ -61,6 +61,8 @@ def predict(image, model_path):
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
 
+
+    image = image.convert("RGB")
     # Apply the transformation and add an extra dimension
     image = transform(image)
     image = image.unsqueeze(0)
