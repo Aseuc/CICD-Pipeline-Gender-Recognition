@@ -26,13 +26,15 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
          
-          echo "Running with i = ${{ matrix.i }}"
-          # Hier können Sie Ihre Befehle hinzufügen, z.B.:
-          cml-publish "test/test-plots-rauschen/${{ matrix.i }}.png" --md >> $report_file
-       
-      
+          report_file="report_test.md"
+          
+          for file in test/test-plots-rauschen/*.png; do
+            echo "Publishing $file"
+            cml-publish "$file" --md >> $report_file
+          done
+          
           cml-send-comment report_test.md
-        
+
     
 
 
