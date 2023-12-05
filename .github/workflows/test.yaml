@@ -7,9 +7,6 @@ jobs:
   run:
     runs-on: [ubuntu-latest]
     container: docker://dvcorg/cml-py3:latest
-    strategy:
-      matrix:
-        i: [1, 2, 3, 4]
     steps:
       - name: Cache pip dependencies
         uses: actions/cache@v3
@@ -20,14 +17,15 @@ jobs:
             ${{ runner.os }}-pip-
         env:
           GITHUB_TOKEN: ${{ secrets.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 }}
-
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Publish files
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
          
           report_file="report_test.md"
-          
+
           for file in test/test-plots-rauschen/*.png; do
             echo "Publishing $file"
             cml-publish "$file" --md >> $report_file
