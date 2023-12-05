@@ -28,6 +28,10 @@ jobs:
           pip install -r requirements.txt
           pip install nbconvert
 
+      - name: Install CML
+        run: |  
+          npm install -g @dvcorg/cml
+      
 
       - name: 'Test ML-Model'
         run: |
