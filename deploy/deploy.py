@@ -77,7 +77,8 @@ def predict(image, model_path):
 
     return predicted.item()
 
-# Streamlit code
+
+
 uploaded_file = st.file_uploader("Choose an image...", type="jpg")
 
 if uploaded_file is not None:
@@ -85,7 +86,13 @@ if uploaded_file is not None:
     st.image(image, caption='Uploaded Image.', use_column_width=True)
     st.write("Image successfully uploaded.")
 
-    model_path = st.text_input("Enter the path to the trained model:")
-    if model_path:
-        prediction = predict(image, model_path)
-        st.write(f"Prediction: {prediction}")
+    # Get a list of all files in the directory
+    model_dir = 'model/PyTorch_Trained_Models'
+    models = os.listdir(model_dir)
+
+    # Use the list of models as options for the selectbox
+    model_name = st.selectbox("Select a model:", models)
+    model_path = os.path.join(model_dir, model_name)
+
+    prediction = predict(image, model_path)
+    st.write(f"Prediction: {prediction}")
