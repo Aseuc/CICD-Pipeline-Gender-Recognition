@@ -56,7 +56,7 @@ class SimpleCNN(nn.Module):
 def predict(image, model_path):
     # Define the transformation
     transform = transforms.Compose([
-
+        transforms.Resize((178, 218)),
         transforms.ToTensor(),
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
