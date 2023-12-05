@@ -1,6 +1,5 @@
 import torch
 from torchvision import transforms
-from model.ml_model_scripts.pytorch_train import SimpleCNN
 import streamlit as st
 import PIL as Image
 import os
