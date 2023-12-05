@@ -94,5 +94,6 @@ if uploaded_file is not None:
     model_name = st.selectbox("Select a model:", models)
     model_path = os.path.join(model_dir, model_name)
 
-    prediction = predict(image, model_path)
-    st.write(f"Prediction: {prediction}")
+    if st.button('Submit'):
+        prediction = predict(image, model_path)
+        st.write(f"Prediction: {prediction}")
