@@ -1,1 +1,0 @@
-Modellmetriken: Genauigkeit: 0.731, Präzision: 0.7356552031806534, Recall: 0.731, F1-Score: 0.7296945145839341
