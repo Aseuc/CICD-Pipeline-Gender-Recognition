@@ -74,10 +74,11 @@ def predict(image, model_path):
 
     # Make the prediction
     with torch.no_grad():
-        outputs = model(image)
-        _, predicted = torch.max(outputs.data, 1)
+            outputs = model(image)
+            probabilities = torch.nn.functional.softmax(outputs[0], dim=0)
+            _, predicted = torch.max(outputs.data, 1)
 
-    return predicted.item()
+    return predicted.item(), probabilities.numpy()
 
 
 
