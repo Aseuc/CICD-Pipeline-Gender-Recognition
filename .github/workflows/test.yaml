@@ -18,10 +18,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.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 }}
 
-      - uses: actions/checkout@v2
-        env:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-  
       - name: Publish files
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -30,22 +26,15 @@ jobs:
           # Generiere einen Report der einzigartig ist um nicht immer den gleichen Report zu erhalten
           report_file="report_test.md"
 
-          # Read the column names from the CSV file
-      
           # Iterate over each column
+          echo "## Performance Report" > $report_file
+
           cml-publish "test/test-plots-rauschen/1.png" --md >> $report_file
        
       
           cml-send-comment report_test.md
         
-      - name: Commit and push model from train.py
-        run: |
-          git config --local user.email "Aseuc@github.com"
-          git config --local user.name "Aseuc"
-          git add .
-          git commit -m "Add generated file" -a || echo "No changes to commit"
-          git push origin test_torch-new-workflow  
-  
+    
 
 
 
