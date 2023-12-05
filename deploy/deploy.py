@@ -79,7 +79,7 @@ def predict(image, model_path):
 
 
 
-uploaded_file = st.file_uploader("Choose an image...", type="jpg")
+uploaded_file = st.file_uploader("Choose an image...", type="jpg, jpeg, png")
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
@@ -94,6 +94,8 @@ if uploaded_file is not None:
     model_name = st.selectbox("Select a model:", models)
     model_path = os.path.join(model_dir, model_name)
 
-    if st.button('Submit'):
-        prediction = predict(image, model_path)
+    if st.button('Prediction Starten!'):
+        prediction, probabilities = predict(image, model_path)
         st.write(f"Prediction: {prediction}")
+        st.write(f"Wahrscheinlichkeit das auf dem Bilde ein Mann ist: {probabilities[0]*100}%")
+        st.write(f"Wahrscheinlichkeit das auf dem Bilde eine Frau ist: {probabilities[1]*100}%")
