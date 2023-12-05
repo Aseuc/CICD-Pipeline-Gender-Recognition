@@ -1,7 +1,7 @@
 import torch
 from torchvision import transforms
 import streamlit as st
-import PIL as Image
+from PIL import Image
 import os
 import torch
 import pandas as pd
