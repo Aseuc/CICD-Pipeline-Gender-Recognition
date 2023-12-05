@@ -1,1 +1,13 @@
-streamlit 
+numpy
+pandas
+matplotlib
+tqdm
+openpyxl
+torch
+torchvision
+scikit-learn
+pytest
+seaborn
+scipy
+pydqc
+streamlit
