@@ -41,7 +41,7 @@ jobs:
             # Update the report
             echo "\n## Datenvisualisierung für $i" >> $report_file
           
-            cml-publish test/test_plots_data/${i}.png --md >> $report_file
+            cml-publish test/test-plots-rauschen/${i}.png --md >> $report_file
           done
       
           cml-send-comment report_test.md
