@@ -33,10 +33,8 @@ jobs:
           # Read the column names from the CSV file
       
           # Iterate over each column
-          for i in {1..3}; do
-            echo "\n## Datenvisualisierung für $i" >> $report_file
-            cml-publish "test/test-plots-rauschen/${i}.png" --md >> $report_file
-          done
+          cml-publish "test/test-plots-rauschen/${i}.png" --md >> $report_file
+       
       
           cml-send-comment report_test.md
         
