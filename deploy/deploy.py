@@ -1,10 +1,9 @@
-from flask import Flask
+import streamlit as st
+from PIL import Image
 
-app = Flask(__name__)
+uploaded_file = st.file_uploader("Choose an image...", type="jpg")
 
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
-
-if __name__ == '__main__':
-    app.run()
+if uploaded_file is not None:
+    image = Image.open(uploaded_file)
+    st.image(image, caption='Uploaded Image.', use_column_width=True)
+    st.write("Image successfully uploaded.")
