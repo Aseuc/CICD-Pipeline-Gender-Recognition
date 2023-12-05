@@ -1,5 +1,8 @@
 name: ML-Train mit Performance-Report
-on: [push]
+on:
+  push:
+    branches:
+      - test_torch-new-workflow
 jobs:
   run:
     runs-on: [ubuntu-latest]
@@ -90,6 +93,7 @@ jobs:
           done
       
           cml-send-comment report_ml_test.md
+          
       - name: Commit and push model from train.py
         run: |
           git config --local user.email "Aseuc@github.com"
