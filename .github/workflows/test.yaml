@@ -33,7 +33,7 @@ jobs:
           # Read the column names from the CSV file
       
           # Iterate over each column
-          cml-publish "test/test-plots-rauschen/${i}.png" --md >> $report_file
+          cml-publish "test/test-plots-rauschen/1.png" --md >> $report_file
        
       
           cml-send-comment report_test.md
