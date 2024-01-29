@@ -1,7 +1,7 @@
 name: CI-CD-Workflow Gender Recognition
 on:
   push:
-    branches: [main]
+    branches: [smaller-dataset]
     
 jobs:
   build-and-test:
@@ -167,4 +167,4 @@ jobs:
         git config --local user.name "Aseuc"
         git add .
         git commit -m "Add generated file" -a || echo "No changes to commit"
-        git push origin main
+        git push origin smaller-dataset
