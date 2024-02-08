@@ -13,18 +13,18 @@
                 fi
             }
 
-
-            publish_additional_plots() {
+            visualize_data() {
                 local report_file=$1
-
-                echo "\n## Balancierte Daten Geschlechter" >> "$report_file"
-                cml-publish data/plots_balanced/Gender_balanced.png
-
-                echo "\n## Balancierte Daten Jung und Alt" >> "$report_file"
-                cml-publish data/plots_balanced/Young_balanced.png
+                local plot_data_dir=$2
+                if [ -n "$(ls -A $plot_data)" ]; then
+                    for file in $plot_data do
+                        echo "\n## Datenvisualisierung für $(basename "$file" .png)" >> "$report_file"
+                        cml-publish "$file" --md >> "$report_file"
+                    done
+                fi
             }
 
-            report_file_distribution="report_distribution.md"
+            report_file_distribution="report_datap_plots.md"
             expoFile="data/report_data/exponential_distribution.txt"
             generate_report "$report_file_distribution" "$expoFile" "Exponentialverteilung"
 
@@ -38,10 +38,13 @@
             generate_report "$report_file_distribution" "$uniformFile" "Uniformverteilung"
 
             report_file="report_data_plots.md"
-            publish_plots "$report_file" "data/plot_data"
-
+            visualize_data "$report_file" "data/plot_data"
+            
+            report_file="report_data_plots.md"
+            visualize_data "$report_file" "data/plots_balanced"
+            
             cml-send-comment "$report_file"
-            publish_additional_plots "$report_file"
+   
 
 # Additional code for data visualization (commented out)
 # columns=$(head -n 1 data/column_source_csv/source.csv | tr ',' '\n')
