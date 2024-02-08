@@ -16,8 +16,8 @@
             visualize_data() {
                 local report_file=$1
                 local plot_data_dir=$2
-                if [ -n "$(ls -A $plot_data)" ]; then
-                    for file in $plot_data do
+                if [ -n "$(ls -A $plot_data_dir)" ]; then
+                    for file in $plot_data_dir/*; do
                         echo "\n## Datenvisualisierung für $(basename "$file" .png)" >> "$report_file"
                         cml-publish "$file" --md >> "$report_file"
                     done
