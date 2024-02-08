@@ -31,12 +31,12 @@ jobs:
           run: |
             python data/dataprep_scripts/datapreparation.py 
 
-        - name: Generierung und Veröffentlichung der visualisierten Daten,Tests und Verteilungen
-          env:
-            repo_token: ${{ secrets.GITHUB_TOKEN }}
-          run: |
-            chmod +x .github/workflows/visualize_data.sh            
-            ./.github/workflows/visualize_data.sh
+        # - name: Generierung und Veröffentlichung der visualisierten Daten,Tests und Verteilungen
+        #   env:
+        #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+        #   run: |
+        #     chmod +x .github/workflows/visualize_data.sh            
+        #     ./.github/workflows/visualize_data.sh
               
         # - name: 'Modell trainieren'
         #   env:
@@ -48,12 +48,12 @@ jobs:
   #         run: |
   #           python test/model_test_scripts/model_test.py
         
-        - name: "Veröffentlichung der Fairlearn-Tests"
+        - name: "Veröffentlichung der Modelmetriken"
           env:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
           run: |
             
-            chmod +x publish_metrics.sh
+            chmod +x publish_model_metrics.sh
             .github/workflows/publish_model_metrics.sh
     
   #       - name: Veröffentlichung der Modellmetriken mit verrauschten Bildern
