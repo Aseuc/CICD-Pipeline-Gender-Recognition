@@ -53,7 +53,7 @@ jobs:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
           run: |
             
-            chmod +x publish_model_metrics.sh
+            chmod +x github/workflows/publish_model_metrics.sh
             .github/workflows/publish_model_metrics.sh
     
   #       - name: Veröffentlichung der Modellmetriken mit verrauschten Bildern
