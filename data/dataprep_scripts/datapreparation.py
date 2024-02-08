@@ -43,7 +43,7 @@ class DataPreparation:
     # Variablendeklaration in dem die Visualisierungsdaten gespeichert werden
     data_vis_path = "data/plot_data"
     
-    def run_dataprep(total_images):
+    def run_dataprep(total_images, image_folder, male_csv,female_csv,id_column):
         
         DataPreparation.create_directories()
         DataPreparation.extract_ids(csv_path=DataPreparation.csv_path, column=DataPreparation.feature_column, id_column=DataPreparation.id_column)
@@ -51,7 +51,7 @@ class DataPreparation:
         DataPreparation.clear_directory(dir_path=DataPreparation.men_image_source_path_train)
         DataPreparation.clear_directory(dir_path=DataPreparation.women_image_source_path_test)
         DataPreparation.clear_directory(dir_path=DataPreparation.women_image_source_path_train)
-        DataPreparation.split_data_random(image_folder=DataPreparation.image_folder, male_csv=DataPreparation.male_csv, female_csv=DataPreparation.female_csv, total_images=total_images, id_column=DataPreparation.id_column)
+        DataPreparation.split_data_random(image_folder=image_folder, male_csv=male_csv, female_csv=female_csv, total_images=total_images, id_column=id_column)
         
 
     @staticmethod
@@ -456,7 +456,7 @@ class Main(DataPreparation, DataTest, DataBalancing, DataVisualization):
     """
     Die Hauptklasse, die die verschiedenen Funktionen zur Datenverarbeitung, Datenprüfung, Datenbalancierung und Datenvisualisierung enthält.
     """
-    total_images = 20000
+    total_images = 1000
     balanced_gender_path = "data/balanced_source_csv/gender_balanced.csv"
     balanced_young_path = "data/balanced_source_csv/young_balanced.csv"
     young_column = "Young" 
@@ -464,14 +464,28 @@ class Main(DataPreparation, DataTest, DataBalancing, DataVisualization):
     save_binomial_distribution_path_txt = "data/reports_data/binomial_distribution.txt"    
     save_uniform_distribution_path_txt = "data/reports_data/uniform_distribution.txt"  
     save_exponential_distribution_path_txt = "data/reports_data/exponential_distribution.txt"
-
+    new_dataset_path = "data/new_dataset"
+    male_csv = "data/IDs/new_dataset_male_ids.csv"
+    female_csv = "data/IDs/new_dataset_female_ids.csv"
+    
     def run_all(self):
-        DataTest.run_datatest(self.save_binomial_distribution_path_txt, self.save_uniform_distribution_path_txt, self.save_exponential_distribution_path_txt, self.save_norm_distribution_path_txt)
-        DataVisualization.run_datavis(balanced_gender_path=self.balanced_gender_path, balanced_young_path=self.balanced_young_path, column_name=self.young_column, feature_column=DataPreparation.feature_column)
-        DataPreparation.run_dataprep(total_images=self.total_images)
+        # DataTest.run_datatest(self.save_binomial_distribution_path_txt, self.save_uniform_distribution_path_txt, self.save_exponential_distribution_path_txt, self.save_norm_distribution_path_txt)
+        # DataVisualization.run_datavis(balanced_gender_path=self.balanced_gender_path, balanced_young_path=self.balanced_young_path, column_name=self.young_column, feature_column=DataPreparation.feature_column)
+        DataPreparation.split_data_random(total_images=self.total_images,image_folder=Main.new_dataset_path,male_csv=Main.male_csv,female_csv=Main.female_csv, id_column=DataPreparation.id_column)
+        # df_female = pd.read_csv("data/IDs/new_dataset_female_ids.csv")
+        # df_female["Male"] = 0
+        # df_male = pd.read_csv("data/IDs/new_dataset_male_ids.csv")
+        # df_male["Male"] = 1
+        # df = pd.concat([df_female,df_male])
+        # df.to_csv("data/IDs/new_dataset.csv", index=False)
 
 
-
-if __name__ == "__main__":
+if __name__ == "__main__":    
     main = Main()
     main.run_all()
+    
+    
+    
+
+
+
