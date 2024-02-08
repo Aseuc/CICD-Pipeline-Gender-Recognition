@@ -160,7 +160,7 @@ jobs:
             git config --local user.name "Aseuc"
             git add model/PyTorch_Trained_Models
             git commit -m "Add trained model" || echo "No changes to commit"
-            git push origin main
+            git push origin new_dataset
         
         
     
@@ -185,10 +185,10 @@ jobs:
       
       - name: ML-Modell auf streamlit deployen
         run: |
-          git pull origin main
-          git push origin main
+          git pull origin new_dataset
+          git push origin new_dataset
           git config --local user.email "Aseuc@github.com"
           git config --local user.name "Aseuc"
           git add .
           git commit -m "Add generated file" -a || echo "No changes to commit"
-          git push origin main
+          git push origin new_dataset

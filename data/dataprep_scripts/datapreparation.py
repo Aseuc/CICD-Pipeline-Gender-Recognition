@@ -456,7 +456,7 @@ class Main(DataPreparation, DataTest, DataBalancing, DataVisualization):
     """
     Die Hauptklasse, die die verschiedenen Funktionen zur Datenverarbeitung, Datenprüfung, Datenbalancierung und Datenvisualisierung enthält.
     """
-    total_images = 1000
+    total_images = 2000
     balanced_gender_path = "data/balanced_source_csv/gender_balanced.csv"
     balanced_young_path = "data/balanced_source_csv/young_balanced.csv"
     young_column = "Young" 
@@ -472,7 +472,12 @@ class Main(DataPreparation, DataTest, DataBalancing, DataVisualization):
         # DataTest.run_datatest(self.save_binomial_distribution_path_txt, self.save_uniform_distribution_path_txt, self.save_exponential_distribution_path_txt, self.save_norm_distribution_path_txt)
         # DataVisualization.run_datavis(balanced_gender_path=self.balanced_gender_path, balanced_young_path=self.balanced_young_path, column_name=self.young_column, feature_column=DataPreparation.feature_column)
         DataPreparation.split_data_random(total_images=self.total_images,image_folder=Main.new_dataset_path,male_csv=Main.male_csv,female_csv=Main.female_csv, id_column=DataPreparation.id_column)
+        # DataPreparation.clear_directory(dir_path=DataPreparation.men_image_source_path_test)
+        # DataPreparation.clear_directory(dir_path=DataPreparation.men_image_source_path_train)
+        # DataPreparation.clear_directory(dir_path=DataPreparation.women_image_source_path_test)
+        # DataPreparation.clear_directory(dir_path=DataPreparation.women_image_source_path_train)
         # df_female = pd.read_csv("data/IDs/new_dataset_female_ids.csv")
+        
         # df_female["Male"] = 0
         # df_male = pd.read_csv("data/IDs/new_dataset_male_ids.csv")
         # df_male["Male"] = 1
