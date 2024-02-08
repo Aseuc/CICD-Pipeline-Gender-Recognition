@@ -420,14 +420,14 @@ class DataVisualization:
         balanced_gender_path = ""
         balanced_young_path = ""
 
-        def run_datavis(balanced_gender_path, balanced_young_path, column_name, feature_column):
-            DataVisualization.histogram_all_columns(DataPreparation.csv_path, DataPreparation.data_vis_path)
-            df_balanced_gender = DataBalancing.balance_column(csv_path=DataPreparation.csv_path, column_name=DataPreparation.feature_column)
-            df_balanced_gender.to_csv(balanced_gender_path, index=False)
-            DataVisualization.plot_histogram(df=df_balanced_gender, column_name=DataPreparation.feature_column, title="Balanced Distribution of Genders", save_path=DataPreparation.data_vis_path, save_name="balanced_gender.png")
-            df_balanced_young = DataBalancing.balance_column(csv_path=DataPreparation.csv_path, column_name=column_name)
-            df_balanced_young.to_csv(balanced_young_path, index=False)
-            DataVisualization.plot_histogram(df=df_balanced_young, column_name=DataPreparation.feature_column, title="Balanced Distribution of Young and Old", save_path=DataPreparation.data_vis_path, save_name="balanced_young.png")
+        def run_datavis(csv_path, data_vis_path):
+            DataVisualization.histogram_all_columns(csv_path,data_vis_path)
+            # df_balanced_gender = DataBalancing.balance_column(csv_path=DataPreparation.csv_path, column_name=DataPreparation.feature_column)
+            # df_balanced_gender.to_csv(balanced_gender_path, index=False)
+            # DataVisualization.plot_histogram(df=df_balanced_gender, column_name=DataPreparation.feature_column, title="Balanced Distribution of Genders", save_path=DataPreparation.data_vis_path, save_name="balanced_gender.png")
+            # df_balanced_young = DataBalancing.balance_column(csv_path=DataPreparation.csv_path, column_name=column_name)
+            # df_balanced_young.to_csv(balanced_young_path, index=False)
+            # DataVisualization.plot_histogram(df=df_balanced_young, column_name=DataPreparation.feature_column, title="Balanced Distribution of Young and Old", save_path=DataPreparation.data_vis_path, save_name="balanced_young.png")
                 
         def plot_histogram(df, column_name, title, save_path, save_name):
             counts = df[column_name].value_counts()
@@ -467,17 +467,17 @@ class Main(DataPreparation, DataTest, DataBalancing, DataVisualization):
     new_dataset_path = "data/new_dataset"
     male_csv = "data/IDs/new_dataset_male_ids.csv"
     female_csv = "data/IDs/new_dataset_female_ids.csv"
-    
+    new_dataset_csv = "data/IDs/new_dataset.csv"
     def run_all(self):
         # DataTest.run_datatest(self.save_binomial_distribution_path_txt, self.save_uniform_distribution_path_txt, self.save_exponential_distribution_path_txt, self.save_norm_distribution_path_txt)
-        # DataVisualization.run_datavis(balanced_gender_path=self.balanced_gender_path, balanced_young_path=self.balanced_young_path, column_name=self.young_column, feature_column=DataPreparation.feature_column)
+        DataVisualization.run_datavis(Main.new_dataset_csv,"data/plot_data")
         DataPreparation.split_data_random(total_images=self.total_images,image_folder=Main.new_dataset_path,male_csv=Main.male_csv,female_csv=Main.female_csv, id_column=DataPreparation.id_column)
         # DataPreparation.clear_directory(dir_path=DataPreparation.men_image_source_path_test)
         # DataPreparation.clear_directory(dir_path=DataPreparation.men_image_source_path_train)
         # DataPreparation.clear_directory(dir_path=DataPreparation.women_image_source_path_test)
         # DataPreparation.clear_directory(dir_path=DataPreparation.women_image_source_path_train)
         # df_female = pd.read_csv("data/IDs/new_dataset_female_ids.csv")
-        
+        # DataPreparation.clear_directory(dir_path="data/plot_data")
         # df_female["Male"] = 0
         # df_male = pd.read_csv("data/IDs/new_dataset_male_ids.csv")
         # df_male["Male"] = 1
