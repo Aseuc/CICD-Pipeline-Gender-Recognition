@@ -2,6 +2,7 @@ publish_model_metrics() {
     echo "## Model Metriken" > report_ml.md
     cat test/metrics/metrics.txt >> report_ml.md
     echo 'cml-publish   test/metrics/metrics.jpg --md >> report_ml.md' > publish_metrics.sh
+    cml-send-comment report_ml.md
 }
 
 
@@ -9,7 +10,7 @@ publish_model_fairness_metrics(){
     echo "\n## Fairlearn Ergebnisse" >> report_ml.md
     echo 'cml-publish test/metricsFairlearn/Fig1metricsFairLearn.jpg --md >> report_ml.md' >> publish_metrics.sh
     echo 'cml-publish test/metricsFairlearn/Fig2metricsFairLearn.jpg --md >> report_ml.md' >> publish_metrics.sh
-
+    cml-send-comment report_ml.md
 }
 
 publish_model_metrics_noise(){
@@ -49,15 +50,12 @@ publish_model_metrics_rotation(){
            
 
 publish_metrics() {
-    local report_file=$1
     publish_model_metrics
     publish_model_fairness_metrics
-    cml-send-comment "$report_file"
-
 }
 
 
-publish_metrics "report_ml.md" 
+publish_metrics 
 # publish_model_metrics_noise "report_test_rauschen.md" "test/test-plots-rauschen"
 # publish_model_metrics_disortion "report_test_verzerrung.md" "test/test-plots-verzerrung"
 # publish_model_metrics_rotation "report_rotation.md" "test/test-plots-rotation"
