@@ -1,4 +1,4 @@
-name: CI-CD-Workflow Gender Recognition
+name: Ressource Monitoring
 on:
     push:
         branches: [test]
@@ -24,7 +24,8 @@ jobs:
             sparse-checkout: |
               .github/workflows/
               data/new_test_dataset
-              model/
+              model/*
+              test/*
 
         - name: Run top command
           run: | 
@@ -36,7 +37,7 @@ jobs:
          
             cml-publish cpu_usage.png --md >> report_ml.md
             cml-send-comment report_ml.md
-            
+
             git config --local user.email "Aseuc@github.com"
             git config --local user.name "Aseuc"
             git add .
@@ -96,10 +97,10 @@ jobs:
         #     Send a comment with a link to the PDF
         #     cml-send-comment "Grafana Dashboard: $URL"
 
-        - name: Upload Grafana dashboard as artifact
-          run: |
-                git config --local user.email "Aseuc@github.com"
-                git config --local user.name "Aseuc"
-                git add ./dashboard.pdf
-                git commit -m "Add Grafana dashboard"
-                git push
+        # - name: Upload Grafana dashboard as artifact
+        #   run: |
+        #         git config --local user.email "Aseuc@github.com"
+        #         git config --local user.name "Aseuc"
+        #         git add ./dashboard.pdf
+        #         git commit -m "Add Grafana dashboard"
+        #         git push
