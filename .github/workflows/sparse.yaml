@@ -29,7 +29,7 @@ jobs:
             #   ./.github/workflows/model_metrics.sh
             pip install torch torchvision tqdm
             python model/model_script/model_train.py 
-            python test/model_test_script/model_test.py 
+            python test/model_test_scripts/model_test.py 
 
             git add model/PyTorch_Trained_Models
             git commit -m "Add new model"
