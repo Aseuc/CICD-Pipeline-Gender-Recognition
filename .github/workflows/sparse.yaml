@@ -1,3 +1,4 @@
+
 name: Sparse Checkout
 
 on:
@@ -7,13 +8,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          ref: new_dataset
 
-    - name: Configure Sparse Checkout
-      run: |
-        git config core.sparseCheckout true
-        echo "-git\info" > .git/info/sparse-checkout
-        git read-tree -mu HEAD
+      - name: Configure Sparse Checkout
+        run: |
+          git config core.sparseCheckout true
+          echo "path/to/include" > .git/info/sparse-checkout
+          git read-tree -mu HEAD
