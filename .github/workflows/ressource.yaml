@@ -1,7 +1,7 @@
 name: CI-CD-Workflow Gender Recognition
 on:
   push:
-    branches: [test]
+    branches: [asdf]
     
 jobs:
     build:
@@ -41,7 +41,7 @@ jobs:
             sudo apt-get update -y
             sudo apt-get install -y wkhtmltopdf
             # Download the dashboard as a PNG image
-            curl -o dashboard.png "http://localhost:3000/render/d-solo/000000012/grafana-play-home?orgId=1&from=1476118144346&to=1476146744346&panelId=2&width=1000&height=500&tz=Europe%2FBerlin"
+            curl -H "Authorization: Bearer YOUR_API_KEY" http://localhost:3000/api/dashboards/home
             
             # Convert the PNG image to PDF
             wkhtmltopdf dashboard.png dashboard.pdf
