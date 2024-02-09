@@ -8,14 +8,17 @@ jobs:
       runs-on: [ubuntu-latest]
       container: docker://dvcorg/cml-py3:latest
       steps:
-        - uses: actions/checkout@v2
+        - uses: actions/checkout@v4
           env:
             repo_token: ${{ secrets.WORKFLOW_TOKEN }}
 
         - name: ShellSkript Test
+          env:
+            repo_token: ${{ secrets.GITHUB_TOKEN }}
           run: |
-            chmod +x .github/workflows/model_metrics.sh
-            ./.github/workflows/model_metrics.sh
+            
+              chmod +x .github/workflows/model_metrics.sh
+              ./.github/workflows/model_metrics.sh
 
 
   #       - name: Abhängigkeiten installieren
