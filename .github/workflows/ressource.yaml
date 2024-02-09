@@ -30,7 +30,8 @@ jobs:
               test/*
 
         - name: Run top command
-         
+          env:
+            repo_token: ${{ secrets.GITHUB_TOKEN }}
           run:  |        
             pip install psutil torch torchvision tqdm matplotlib numpy pandas fairlearn sklearn torchcam
             python model/model_script/model_train.py 
