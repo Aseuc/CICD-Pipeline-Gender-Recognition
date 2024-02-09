@@ -26,6 +26,13 @@ jobs:
             sparse-checkout: 
                 .github/workflows/
 
+        - name: Install Node.js and Puppeteer
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y nodejs npm
+            npm install puppeteer
+
+        
         - name: Run Prometheus
           run: |
                 docker run \
@@ -48,14 +55,28 @@ jobs:
                 --storage_driver=prometheus \
                 --storage_driver_host=localhost:9090
 
-        - name: Export Grafana dashboard as PDF
-          run: |
-            # Replace this with your command to export the Grafana dashboard as a PDF
-            export-dashboard-as-pdf --output dashboard.pdf
-            # Publish the PDF and get a URL for it
-            URL=$(cml-publish dashboard.pdf --md)
-            # Send a comment with a link to the PDF
-            cml-send-comment "Grafana Dashboard: $URL"
+        # - name: Export Grafana dashboard as PDF
+        #   run: |
+        #     const puppeteer = require('puppeteer');
+
+        #     async function run() {
+        #         const browser = await puppeteer.launch();
+        #         const page = await browser.newPage();
+        #         await page.goto('http://your-grafana-dashboard-url', {waitUntil: 'networkidle2'});
+        #         await page.pdf({path: 'dashboard.pdf', format: 'A4'});
+            
+        #         await browser.close();
+        #     }
+            
+        #     run();
+
+
+        #     Replace this with your command to export the Grafana dashboard as a PDF
+        #     export-dashboard-as-pdf --output dashboard.pdf
+        #     Publish the PDF and get a URL for it
+        #     URL=$(cml-publish dashboard.pdf --md)
+        #     Send a comment with a link to the PDF
+        #     cml-send-comment "Grafana Dashboard: $URL"
 
         - name: Upload Grafana dashboard as artifact
           run: |

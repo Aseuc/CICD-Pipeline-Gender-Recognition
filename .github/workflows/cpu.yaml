@@ -1,31 +1,19 @@
-name: CI-CD-Workflow Gender Recognition
+name: Main Workflow
+
+
+
 on:
-  push:
-    branches: [tetsfdsd]
-    
+    push:
+        branches: test
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        
-        steps:
-        - uses: actions/checkout@v3
-          with: 
-            sparse-checkout: 
-              .github/workflows/
+  build:
+    name: Run k6 test
+    runs-on: ubuntu-latest
+    container: docker://dvcorg/cml-py3:latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
 
-        - name: Monitor CPU usage   
-          run: |
-            while true; do
-              echo "$(date): $(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')"
-              sleep 5
-            done > cpu_usage.txt &
-
-        - name: Run tests
-          run: make test
-
-        - name: Upload CPU usage
-          uses: actions/upload-artifact@v2
-          with:
-            name: cpu_usage
-            path: cpu_usage.txt
+    - name: Run top command
+      run: top -b -n 1
