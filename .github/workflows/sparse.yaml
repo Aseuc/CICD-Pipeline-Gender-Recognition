@@ -15,6 +15,21 @@ jobs:
               data/new_test_dataset/train-test-data/*
               model/*
               test/*
+
+        - name: Run cAdvisor
+          run: |
+            docker run \
+              --volume=/:/rootfs:ro \
+              --volume=/var/run:/var/run:rw \
+              --volume=/sys:/sys:ro \
+              --volume=/var/lib/docker/:/var/lib/docker:ro \
+              --publish=8080:8080 \
+              --detach=true \
+              --name=cadvisor \
+              google/cadvisor:latest
+
+
+
         - name: ShellSkript Test
           env:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
