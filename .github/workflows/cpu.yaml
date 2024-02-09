@@ -4,7 +4,7 @@ name: Main Workflow
 
 on:
     push:
-        branches: test
+        branches: sdf
 
 jobs:
   build:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     container: docker://dvcorg/cml-py3:latest
     steps:
-        
+
     - name: Checkout
       uses: actions/checkout@v3
       with: 

@@ -1,7 +1,7 @@
 name: CI-CD-Workflow Gender Recognition
 on:
     push:
-        branches: [sdaf]
+        branches: [test]
         
 jobs:
     build:
@@ -25,6 +25,7 @@ jobs:
               .github/workflows/
               data/new_test_dataset
               model/
+
         - name: Run top command
           run: | 
             pip install psutil torch torchvision tqdm matplotlib numpy pandas fairlearn sklearn torchcam
@@ -32,7 +33,10 @@ jobs:
             python model/model_script/model_train.py 
             
             # python test/model_test_scripts/model_test.py
-
+         
+            cml-publish cpu_usage.png --md >> report_ml.md
+            cml-send-comment report_ml.md
+            
             git config --local user.email "Aseuc@github.com"
             git config --local user.name "Aseuc"
             git add .

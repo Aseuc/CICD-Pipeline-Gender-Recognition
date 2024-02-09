@@ -54,6 +54,7 @@ jobs:
             pip install torch torchvision tqdm matplotlib numpy pandas fairlearn sklearn torchcam
             python model/model_script/model_train.py 
             # python test/model_test_scripts/model_test.py 
+            cml-publish 
             git config --local user.email "Aseuc@github.com"
             git config --local user.name "Aseuc"
             git add .
