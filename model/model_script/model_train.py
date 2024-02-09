@@ -141,13 +141,13 @@ class Main(DataLoaderModelTrain):
     def __init__(self):
         self.batch_size = 64
         self.epochs = 50
-        self.test_dir = 'data/train-test-data/test'
+        self.test_dir = 'data/new_test_dataset/train-test-data/test'
         self.transform = transforms.Compose([
             transforms.Resize((178, 218)),
             transforms.ToTensor(),
             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
         ])
-        self.train_dir = 'data/train-test-data/train'
+        self.train_dir = 'data/new_test_dataset/train-test-data/train'
         self.train_dataloader, self.test_dataloader = DataLoaderModelTrain.load_data(train_dir=self.train_dir,test_dir=self.test_dir,transform=self.transform,batch_size=self.batch_size)
 
         self.model = SimpleCNN()
