@@ -53,8 +53,4 @@ publish_metrics() {
     publish_model_fairness_metrics
 }
 
-
 publish_metrics 
-# publish_model_metrics_noise "report_test_rauschen.md" "test/test-plots-rauschen"
-# publish_model_metrics_disortion "report_test_verzerrung.md" "test/test-plots-verzerrung"
-# publish_model_metrics_rotation "report_rotation.md" "test/test-plots-rotation"

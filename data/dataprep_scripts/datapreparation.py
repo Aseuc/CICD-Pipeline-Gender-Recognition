@@ -20,7 +20,8 @@ class DataPreparation:
     men_image_source_path_test = "data/train-test-data/test/men"
     women_image_source_path_test = "data/train-test-data/test/women"
 
-    # Erstellen eines Arrays von Verzeichnissen, die für die Datenverarbeitung erforderlich sind
+    # Erstellen eines Arrays von Verzeichnissen, die für die Datenverarbeitung
+    # erforderlich sind
     required_directories = [
         source_train_path,
         women_image_source_path_test,
@@ -38,14 +39,19 @@ class DataPreparation:
     # festlegen des identifizierenden Spaltennamens
     id_column = "image_id"
 
-    # festlegen des Spaltennamens, der das Merkmal enthält worauf trainiert werden soll
+    # festlegen des Spaltennamens, der das Merkmal enthält worauf trainiert
+    # werden soll
     feature_column = "Male"
 
     # Variablendeklaration in dem die Visualisierungsdaten gespeichert werden
     data_vis_path = "data/plot_data"
 
-    def run_dataprep(total_images, image_folder, male_csv, female_csv,
-                     id_column):
+    def run_dataprep(
+            total_images,
+            image_folder,
+            male_csv,
+            female_csv,
+            id_column):
         DataPreparation.create_directories()
         DataPreparation.extract_ids(
             csv_path=DataPreparation.csv_path,
@@ -53,13 +59,17 @@ class DataPreparation:
             id_column=DataPreparation.id_column,
         )
         DataPreparation.clear_directory(
-            dir_path=DataPreparation.men_image_source_path_test)
+            dir_path=DataPreparation.men_image_source_path_test
+        )
         DataPreparation.clear_directory(
-            dir_path=DataPreparation.men_image_source_path_train)
+            dir_path=DataPreparation.men_image_source_path_train
+        )
         DataPreparation.clear_directory(
-            dir_path=DataPreparation.women_image_source_path_test)
+            dir_path=DataPreparation.women_image_source_path_test
+        )
         DataPreparation.clear_directory(
-            dir_path=DataPreparation.women_image_source_path_train)
+            dir_path=DataPreparation.women_image_source_path_train
+        )
         DataPreparation.split_data_random(
             image_folder=image_folder,
             male_csv=male_csv,
@@ -71,17 +81,19 @@ class DataPreparation:
     @staticmethod
     def create_directories():
         os.makedirs(DataPreparation.men_image_source_path_train, exist_ok=True)
-        os.makedirs(DataPreparation.women_image_source_path_train,
-                    exist_ok=True)
-        os.makedirs(DataPreparation.women_image_source_path_test,
-                    exist_ok=True)
+        os.makedirs(
+            DataPreparation.women_image_source_path_train,
+            exist_ok=True)
+        os.makedirs(
+            DataPreparation.women_image_source_path_test,
+            exist_ok=True)
         os.makedirs(DataPreparation.men_image_source_path_test, exist_ok=True)
         os.makedirs(DataPreparation.IDs, exist_ok=True)
 
     @staticmethod
-    def extract_ids_source_data_and_save(directory,
-                                         csv_path="data-ids.csv",
-                                         id_column="image_id"):
+    def extract_ids_source_data_and_save(
+        directory, csv_path="data-ids.csv", id_column="image_id"
+    ):
         filenames = os.listdir(directory)
         df = pd.DataFrame(filenames, columns=[id_column])
         df.to_csv(csv_path, index=False)
@@ -90,9 +102,10 @@ class DataPreparation:
     def extract_all_ids(csv_path, column="Male", id_column="image_id"):
         df = pd.read_csv(csv_path)
         df[column] = df[column].replace(-1, 0)
-        df.to_csv(f"data/IDs/source_csv_all_ids.csv",
-                  columns=[id_column],
-                  index=False)
+        df.to_csv(
+            f"data/IDs/source_csv_all_ids.csv",
+            columns=[id_column],
+            index=False)
 
     @staticmethod
     def extract_ids(csv_path, column="Male", id_column="image_id"):
@@ -100,12 +113,14 @@ class DataPreparation:
         df[column] = df[column].replace(-1, 0)
         male_df = df[df[column] == 1]
         female_df = df[df[column] == 0]
-        male_df.to_csv(f"data/IDs/male_ids.csv",
-                       columns=[id_column],
-                       index=False)
-        female_df.to_csv(f"data/IDs/female_ids.csv",
-                         columns=[id_column],
-                         index=False)
+        male_df.to_csv(
+            f"data/IDs/male_ids.csv",
+            columns=[id_column],
+            index=False)
+        female_df.to_csv(
+            f"data/IDs/female_ids.csv",
+            columns=[id_column],
+            index=False)
 
     @staticmethod
     def clear_directory(dir_path):
@@ -126,12 +141,13 @@ class DataPreparation:
         return ids
 
     @staticmethod
-    def split_data_random(image_folder,
-                          male_csv,
-                          female_csv,
-                          total_images,
-                          id_column,
-                          train_ratio=0.7):
+    def split_data_random(
+            image_folder,
+            male_csv,
+            female_csv,
+            total_images,
+            id_column,
+            train_ratio=0.7):
         male_ids = DataPreparation.get_ids_from_csv(male_csv, id_column)
         female_ids = DataPreparation.get_ids_from_csv(female_csv, id_column)
 
@@ -205,7 +221,8 @@ class DataTest:
         DataTest.check_csv_extension(csv_path=DataPreparation.csv_path)
 
         DataTest.check_required_directories_data_exists(
-            directories=DataPreparation.required_directories)
+            directories=DataPreparation.required_directories
+        )
 
         DataTest.test_quality_of_csv(
             csv_path=DataPreparation.csv_path,
@@ -218,12 +235,11 @@ class DataTest:
 
         DataTest.test_balance_all_columns(csv_path=DataPreparation.csv_path)
 
-        DataTest.detect_anomaly(csv_path=DataPreparation.csv_path,
-                                id_column=DataPreparation.id_column)
+        DataTest.detect_anomaly(
+            csv_path=DataPreparation.csv_path,
+            id_column=DataPreparation.id_column)
         stat, p = DataTest.test_image_brightness(
-            source_directory=DataPreparation.image_folder,
-            num_images=3,
-            num_pixels=1000)
+            source_directory=DataPreparation.image_folder, num_images=3, num_pixels=1000)
         print(
             f"Kruskal-Wallis-Test result: {stat}, p-value: {p}. A small p-value (typically less than 0.05) indicates that there is likely a significant difference in the brightness values of the selected images."
         )
@@ -290,7 +306,8 @@ class DataTest:
         filenames = os.listdir(directory)
         valid_extensions = [".jpg", ".jpeg", ".png", ".bmp", ".gif"]
         invalid_files = [
-            file for file in filenames
+            file
+            for file in filenames
             if os.path.splitext(file)[1].lower() not in valid_extensions
         ]
 
@@ -313,7 +330,8 @@ class DataTest:
     def check_required_directories_data_exists(directories):
         for directory in directories:
             assert os.path.isdir(
-                directory), f"Das Verzeichnis {directory} existiert nicht"
+                directory
+            ), f"Das Verzeichnis {directory} existiert nicht"
 
     @staticmethod
     def test_quality_of_csv(csv_path, column_name_of_image_paths="image_id"):
@@ -328,14 +346,15 @@ class DataTest:
         df = pd.read_csv(csv_path)
         for column_name in df.columns:
             if np.issubdtype(
-                    df[column_name].dtype,
-                    np.number):  # Überprüfe, ob die Spalte numerisch ist
-                z_scores = np.abs((df[column_name] - df[column_name].mean()) /
-                                  df[column_name].std())
+                df[column_name].dtype, np.number
+            ):  # Überprüfe, ob die Spalte numerisch ist
+                z_scores = np.abs(
+                    (df[column_name] -
+                     df[column_name].mean()) /
+                    df[column_name].std())
                 if any(z_scores > 3):
                     print(
-                        f"::warning::Es gibt Ausreißer in der Spalte '{column_name}'"
-                    )
+                        f"::warning::Es gibt Ausreißer in der Spalte '{column_name}'")
 
     @staticmethod
     def test_balance_all_columns(csv_path):
@@ -343,19 +362,20 @@ class DataTest:
         imbalance_report = []
 
         for column_name in df.columns:
-            if DataTest.is_numeric(df[column_name]) == True:
+            if DataTest.is_numeric(df[column_name]):
                 if np.issubdtype(
-                        df[column_name].dtype,
-                        np.number):  # Überprüfe, ob die Spalte numerisch ist
+                    df[column_name].dtype, np.number
+                ):  # Überprüfe, ob die Spalte numerisch ist
                     counts = df[column_name].value_counts()
-                    if abs(counts.get(-1, 0) -
-                           counts.get(1, 0)) >= 0.1 * len(df):
+                    if abs(counts.get(-1, 0) - counts.get(1, 0)
+                           ) >= 0.1 * len(df):
                         imbalance_report.append(
                             f"Die Spalte '{column_name}' ist unausgeglichen. Anzahl von -1: {counts.get(-1, 0)}, Anzahl von 1: {counts.get(1, 0)}"
                         )
         if imbalance_report:
-            print("Es gibt unausgeglichene Spalten:\n" +
-                  "\n".join(imbalance_report))
+            print(
+                "Es gibt unausgeglichene Spalten:\n" +
+                "\n".join(imbalance_report))
 
     @staticmethod
     def test_outliers_IQR(df):
@@ -367,10 +387,10 @@ class DataTest:
                 IQR = Q3 - Q1
                 lower_bound = Q1 - 1.5 * IQR
                 upper_bound = Q3 + 1.5 * IQR
-                outliers = df[(df[column_name] < lower_bound) |
-                              (df[column_name] > upper_bound)]
-                outliers_percentage[column_name] = len(outliers) / len(
-                    df) * 100
+                outliers = df[(df[column_name] < lower_bound)
+                              | (df[column_name] > upper_bound)]
+                outliers_percentage[column_name] = len(
+                    outliers) / len(df) * 100
                 print(
                     f"Ausreißerprozentwert für Spalte '{column_name}': {outliers_percentage[column_name]}%"
                 )
@@ -403,8 +423,8 @@ class DataTest:
 
     @staticmethod
     def test_normal_distribution(
-            data,
-            save_distribution_path_txt="data/plot_data/norm_distribution.txt"):
+        data, save_distribution_path_txt="data/plot_data/norm_distribution.txt"
+    ):
         df = pd.read_csv(data)
         results = []
         for column_name in df.columns:
@@ -423,9 +443,8 @@ class DataTest:
 
     @staticmethod
     def test_uniform_distribution(
-        data,
-        save_distribution_path_txt="data/reports_data/uniform_distribution.txt"
-    ):
+            data,
+            save_distribution_path_txt="data/reports_data/uniform_distribution.txt"):
         df = pd.read_csv(data)
         results = []
         for column_name in df.columns:
@@ -457,16 +476,17 @@ class DataTest:
                 data = df[column_name].replace(-1, 0)
                 value_counts = data.value_counts()
                 observed_values = [
-                    value_counts.get(1, 0),
-                    value_counts.get(0, 0)
-                ]
+                    value_counts.get(
+                        1, 0), value_counts.get(
+                        0, 0)]
                 n = len(data)
 
                 expected_values = [n * p, n * (1 - p)]
 
-                if (abs(observed_values[0] - expected_values[0]) / n < 0.05
-                        and abs(observed_values[1] - expected_values[1]) / n <
-                        0.05):
+                if (
+                    abs(observed_values[0] - expected_values[0]) / n < 0.05
+                    and abs(observed_values[1] - expected_values[1]) / n < 0.05
+                ):
                     result = f"Die Daten in der Spalte {column_name} folgen wahrscheinlich einer Binomial-Verteilung."
                     print(result)
                 else:
@@ -507,9 +527,8 @@ class DataTest:
         from PIL import Image
         from scipy.stats import kruskal
 
-        image_files = [
-            f for f in os.listdir(source_directory) if f.endswith(".jpg")
-        ]
+        image_files = [f for f in os.listdir(
+            source_directory) if f.endswith(".jpg")]
 
         # Zufällige Auswahl von Bildern
         selected_images = random.sample(image_files, num_images)
@@ -518,8 +537,10 @@ class DataTest:
         brightness_values = []
 
         for image_file in selected_images:
-            img = Image.open(os.path.join(source_directory,
-                                          image_file)).convert("L")
+            img = Image.open(
+                os.path.join(
+                    source_directory,
+                    image_file)).convert("L")
             img_array = np.array(img)
             pixel_indices = random.sample(range(img_array.size), num_pixels)
             selected_pixels = img_array.ravel()[pixel_indices]
@@ -576,8 +597,8 @@ class DataVisualization:
         df = pd.read_csv(csv_path)
         for column_name in df.columns:
             if np.issubdtype(
-                    df[column_name].dtype,
-                    np.number):  # Überprüfe, ob die Spalte numerisch ist
+                df[column_name].dtype, np.number
+            ):  # Überprüfe, ob die Spalte numerisch ist
                 counts = df[column_name].value_counts()
                 counts.plot(
                     kind="bar",
@@ -601,13 +622,18 @@ class Main(DataPreparation, DataTest, DataBalancing, DataVisualization):
     save_binomial_distribution_path_txt = "data/reports_data/binomial_distribution.txt"
     save_uniform_distribution_path_txt = "data/reports_data/uniform_distribution.txt"
     save_exponential_distribution_path_txt = (
-        "data/reports_data/exponential_distribution.txt")
+        "data/reports_data/exponential_distribution.txt"
+    )
     new_dataset_path = "data/new_dataset"
     male_csv = "data/IDs/new_dataset_male_ids.csv"
     female_csv = "data/IDs/new_dataset_female_ids.csv"
     new_dataset_csv = "data/IDs/new_dataset.csv"
 
     def run_all(self):
+        """
+        Führt alle notwendigen Schritte zur Datenverarbeitung für die Gender Recognition Pipeline aus.
+        Dies beinhaltet die Datenvisualisierung, die Datenaufteilung und das Erstellen einer neuen Datensatz-CSV-Datei.
+        """
         # DataTest.run_datatest(self.save_binomial_distribution_path_txt, self.save_uniform_distribution_path_txt, self.save_exponential_distribution_path_txt, self.save_norm_distribution_path_txt)
         DataVisualization.run_datavis(Main.new_dataset_csv, "data/plot_data")
         DataPreparation.split_data_random(
