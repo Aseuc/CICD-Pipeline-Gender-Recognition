@@ -12,7 +12,8 @@ jobs:
           with:
             sparse-checkout: |
               .github
-              test
+              test/*
+              
 
         - name: ShellSkript Test
           env:
