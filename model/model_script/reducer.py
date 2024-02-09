@@ -17,6 +17,6 @@ def reduce_image_data(source_dir, num_images_to_keep):
                 os.remove(os.path.join(source_dir, image))
 
 # Verwendung der Funktion
-source_dir = r"C:\CICDPipeline\CICD-Pipeline-Gender-Recognition\data\new_test_dataset\train-test-data\train\men"
-num_images_to_keep = 1000  # Anzahl der zu behaltenden Bilder
+source_dir = r"C:\CICDPipeline\CICD-Pipeline-Gender-Recognition\data\new_test_dataset\train-test-data\test\men"
+num_images_to_keep = 250  # Anzahl der zu behaltenden Bilder
 reduce_image_data(source_dir, num_images_to_keep)

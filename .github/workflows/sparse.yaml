@@ -14,7 +14,7 @@ jobs:
               .github
               data/new_test_dataset/train-test-data/*
               model/*
-
+              test/*
         - name: ShellSkript Test
           env:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -29,3 +29,8 @@ jobs:
             #   ./.github/workflows/model_metrics.sh
             pip install torch torchvision tqdm
             python model/model_script/model_train.py 
+            python test/test_script/model_test.py 
+
+            git add model/PyTorch_Trained_Models
+            git commit -m "Add new model"
+            git push origin test
