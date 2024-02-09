@@ -12,12 +12,15 @@ jobs:
           with:
             sparse-checkout: |
               .github
-              src
+              data
 
         - name: ShellSkript Test
           env:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
           run: |
+              # Uncomment the lines below to install dependencies
+              # python -m pip install --upgrade pip
+              # pip install -r requirements.txt
             
               chmod +x .github/workflows/model_metrics.sh
               ./.github/workflows/model_metrics.sh
