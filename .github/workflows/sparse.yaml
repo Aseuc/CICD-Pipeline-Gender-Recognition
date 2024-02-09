@@ -1,30 +1,19 @@
 name: Sparse Checkout
-on: 
-    push:
-        branches: [new_dataset]
+
+on:
+  push:
+    branches: [ new_dataset ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-    - name: Create empty Git repository
-      run: |
-        git init test_repo
-        cd test_repo
 
-    - name: Enable Sparse Checkout
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Configure Sparse Checkout
       run: |
         git config core.sparseCheckout true
-
-    - name: Add Remote
-      run: |
-        git remote add -f origin https://github.com/Aseuc/CICD-Pipeline-Gender-Recognition.git
-
-    - name: Specify files to checkout
-      run: |
-        echo 'data/img_align_celeba' >> .git/info/sparse-checkout
-        # echo 'another/path' >> .git/info/sparse-checkout
-        
-    - name: Checkout
-      run: |
-        git checkout main
+        echo "-git\info" > .git/info/sparse-checkout
+        git read-tree -mu HEAD
