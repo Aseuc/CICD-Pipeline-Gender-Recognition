@@ -12,6 +12,7 @@ from datetime import datetime
 import  time
 import psutil
 import matplotlib.pyplot as plt
+
 class SimpleCNN(nn.Module):
     def __init__(self):
         super(SimpleCNN, self).__init__()

@@ -18,9 +18,6 @@ jobs:
           env:
                 GITHUB_TOKEN: "${{secrets.WORKFLOW_TOKEN}}"
 
-        - name: Test 
-          run: echo "Replace this with your test command"
-
         - name: Checkout  
           uses: actions/checkout@v3
           with: 
@@ -30,8 +27,18 @@ jobs:
               model/
         - name: Run top command
           run: | 
-            pip install psutil
-            python model/model_train.py
+            pip install psutil torch torchvision tqdm matplotlib numpy pandas fairlearn sklearn torchcam
+            
+            python model/model_script/model_train.py 
+            
+            # python test/model_test_scripts/model_test.py
+
+            git config --local user.email "Aseuc@github.com"
+            git config --local user.name "Aseuc"
+            git add .
+            git commit -m "Add generated file" -a || echo "No changes to commit"
+            git push origin test
+  
 
         # - name: Install Node.js and Puppeteer
         #   run: |
