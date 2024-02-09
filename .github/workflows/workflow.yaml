@@ -18,7 +18,12 @@ jobs:
               test/metricsFairlearn/*
               test/metrics/*
               test/activation_map/*
-              
+
+        - name: Install dependencies
+          run: |
+              apt-get update
+              apt-get install -y graphviz
+    
         - name: ShellSkript Test
           env:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -28,7 +33,8 @@ jobs:
               # Uncomment the lines below to install dependencies
               # python -m pip install --upgrade pip
               # pip install -r requirements.txt
-              
+              pip install pyreverse
+
               chmod +x .github/workflows/model_metrics.sh
               ./.github/workflows/model_metrics.sh
 
