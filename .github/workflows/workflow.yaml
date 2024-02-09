@@ -8,9 +8,11 @@ jobs:
       runs-on: [ubuntu-latest]
       container: docker://dvcorg/cml-py3:latest
       steps:
-        - uses: actions/checkout@v4
-          env:
-            repo_token: ${{ secrets.WORKFLOW_TOKEN }}
+        - uses: actions/checkout@v3
+          with:
+            sparse-checkout: |
+              .github
+              src
 
         - name: ShellSkript Test
           env:
