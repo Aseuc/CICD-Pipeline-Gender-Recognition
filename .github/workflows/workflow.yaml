@@ -15,8 +15,10 @@ jobs:
               test/test-plots-rauschen/*
               test/test-plots-verzerrung/* 
               test/test-plots-rotation/*
-
-
+              test/metricsFairlearn/*
+              test/metrics/*
+              test/activation_map/*
+              
         - name: ShellSkript Test
           env:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
