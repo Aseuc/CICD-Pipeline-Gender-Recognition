@@ -8,8 +8,7 @@ jobs:
       runs-on: ubuntu-latest
         
       steps:
-        - name: Checkout repository
-          uses: action@checkoutv3
+        - uses: actions/checkout@v3
           with: 
             sparse-checkout: 
                 .github/workflows/
