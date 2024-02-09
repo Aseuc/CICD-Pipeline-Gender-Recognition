@@ -17,9 +17,11 @@ jobs:
                     ${{ runner.os }}-pip-
           env:
                 GITHUB_TOKEN: "${{secrets.WORKFLOW_TOKEN}}"
-                repo_token: ${{ secrets.GITHUB_TOKEN }}
+               
         - name: Checkout  
           uses: actions/checkout@v3
+          env:
+            repo_token: ${{ secrets.GITHUB_TOKEN }}
           with: 
             sparse-checkout: |
               .github/workflows/
@@ -28,13 +30,13 @@ jobs:
               test/*
 
         - name: Run top command
-          run: | 
+         
+          run:  |        
             pip install psutil torch torchvision tqdm matplotlib numpy pandas fairlearn sklearn torchcam
-            
             python model/model_script/model_train.py 
             
             # python test/model_test_scripts/model_test.py
-         
+        
             cml-publish cpu_usage.png --md >> report_ml.md
             cml-send-comment report_ml.md
 
@@ -43,6 +45,8 @@ jobs:
             git add .
             git commit -m "Add generated file" -a || echo "No changes to commit"
             git push origin test
+
+            
   
 
         # - name: Install Node.js and Puppeteer
