@@ -21,39 +21,46 @@ jobs:
         - name: Test 
           run: echo "Replace this with your test command"
 
-        - uses: actions/checkout@v3
+        - name: Checkout  
+          uses: actions/checkout@v3
           with: 
-            sparse-checkout: 
-                .github/workflows/
+            sparse-checkout: |
+              .github/workflows/
+              data/new_test_dataset
+              model/
+        - name: Run top command
+          run: | 
+            pip install psutil
+            python model/model_train.py
 
-        - name: Install Node.js and Puppeteer
-          run: |
-            sudo apt-get update
-            sudo apt-get install -y nodejs npm
-            npm install puppeteer
+        # - name: Install Node.js and Puppeteer
+        #   run: |
+        #     sudo apt-get update
+        #     sudo apt-get install -y nodejs npm
+        #     npm install puppeteer
 
         
-        - name: Run Prometheus
-          run: |
-                docker run \
-                    --publish=9090:9090 \
-                    --detach=true \
-                    --name=prometheus \
-                    prom/prometheus
+        # - name: Run Prometheus
+        #   run: |
+        #         docker run \
+        #             --publish=9090:9090 \
+        #             --detach=true \
+        #             --name=prometheus \
+        #             prom/prometheus
 
-        - name: Run cAdvisor
-          run: |
-            docker run \
-                --volume=/:/rootfs:ro \
-                --volume=/var/run:/var/run:rw \
-                --volume=/sys:/sys:ro \
-                --volume=/var/lib/docker/:/var/lib/docker:ro \
-                --publish=8080:8080 \
-                --detach=true \
-                --name=cadvisor \
-                google/cadvisor:latest \
-                --storage_driver=prometheus \
-                --storage_driver_host=localhost:9090
+        # - name: Run cAdvisor
+        #   run: |
+        #     docker run \
+        #         --volume=/:/rootfs:ro \
+        #         --volume=/var/run:/var/run:rw \
+        #         --volume=/sys:/sys:ro \
+        #         --volume=/var/lib/docker/:/var/lib/docker:ro \
+        #         --publish=8080:8080 \
+        #         --detach=true \
+        #         --name=cadvisor \
+        #         google/cadvisor:latest \
+        #         --storage_driver=prometheus \
+        #         --storage_driver_host=localhost:9090
 
         # - name: Export Grafana dashboard as PDF
         #   run: |

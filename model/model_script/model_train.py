@@ -9,7 +9,9 @@ import torchvision.transforms as transforms
 import os
 import glob
 from datetime import datetime
-
+import  time
+import psutil
+import matplotlib.pyplot as plt
 class SimpleCNN(nn.Module):
     def __init__(self):
         super(SimpleCNN, self).__init__()
@@ -76,6 +78,8 @@ class Trainer:
         Speichert das Modell mit der höchsten erreichten Validierungsgenauigkeit.
         Führt ein vorzeitiges Beenden durch, wenn die Validierungsgenauigkeit für eine bestimmte Anzahl von Epochen nicht verbessert wird.
         """
+        start_time = time.time()
+        print("Startzeit: ", start_time)
         for epoch in range(self.epochs):
             running_loss = 0.0
             for i, data in enumerate(tqdm(self.train_dataloader), 0):
@@ -101,9 +105,11 @@ class Trainer:
                     correct += (predicted == val_labels).sum().item()
             accuracy = correct / total
             
+            cpu_percentages.append(psutil.cpu_percent(interval=1))
+
             if accuracy > 0.9:
                 torch.save(self.model.state_dict(), f'model/PyTorch_Trained_Models/model_epoch_{epoch}_accuracy_{accuracy:.2f}_{formatted_now}.pth')
-            
+
             if accuracy > 0.95:
                 torch.save(self.model.state_dict(), f'model/PyTorch_Trained_Models/model_epoch_{epoch}_accuracy_{accuracy:.2f}_{formatted_now}.pth')
                 break
@@ -119,7 +125,9 @@ class Trainer:
                 print('Early stopping')
                 break
 
-
+        end_time = time.time()
+        print("Endzeit: ", end_time)
+        measure_cpu(cpu_percentages, start_time, end_time)  
         torch.save(self.model.state_dict(), f'model/PyTorch_Trained_Models/model_epoch_{epoch}_accuracy_{accuracy:.2f}_{formatted_now}.pth')
         print(f'Training beende. Genauigkeit: {accuracy:.2f}' + f'Epoch: {epoch}'  )
         print("Gespeicherter Pfad: ", f'model/PyTorch_Trained_Models/model_epoch_{epoch}_accuracy_{accuracy:.2f}_{formatted_now}.pth')
@@ -140,7 +148,7 @@ class DataLoaderModelTrain:
 class Main(DataLoaderModelTrain):
     def __init__(self):
         self.batch_size = 64
-        self.epochs = 50
+        self.epochs =10
         self.test_dir = 'data/new_test_dataset/train-test-data/test'
         self.transform = transforms.Compose([
             transforms.Resize((178, 218)),
@@ -175,8 +183,31 @@ class Main(DataLoaderModelTrain):
         else:
             torch.save(self.model.state_dict(), f"{model_test_path}{formatted_now}" + ".pth")
 
+def measure_cpu(cpu_percentages, start_time, end_time):
+    while time.time() - start_time < end_time - start_time:
+        cpu_percentages.append(psutil.cpu_percent(interval=1))
 
+import threading
 
 if __name__ == "__main__":
     m = Main()
+    cpu_percentages = []
     m.train_and_save()
+    print(cpu_percentages)  
+    # # Starten Sie das Modelltraining in einem separaten Thread
+    # train_thread = threading.Thread(target=m.train_and_save)
+    
+    # train_thread.start()
+    # train_thread.join()
+
+
+    # Messen Sie die CPU-Auslastung während des Modelltrainings
+    # measure_cpu(cpu_percentages, start_time, end_time)
+
+    # Erstellen Sie ein Diagramm der CPU-Auslastung
+    plt.plot(cpu_percentages)
+    plt.title('CPU-Auslastung während des Modelltrainings')
+    plt.xlabel('Zeit (Sekunden)')
+    plt.ylabel('CPU-Auslastung (%)')
+    plt.savefig('cpu_usage.png')
+    plt.show()
