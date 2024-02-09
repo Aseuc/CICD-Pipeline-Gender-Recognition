@@ -1,55 +1,66 @@
 name: CI-CD-Workflow Gender Recognition
 on:
-  push:
-    branches: [asdf]
-    
+    push:
+        branches: [asdf]
+        
 jobs:
     build:
-      runs-on: ubuntu-latest
-        
-      steps:
+        runs-on: ubuntu-latest
+        container: docker://dvcorg/cml-py3:latest
+        steps:
+        - name: Caching von pip Abhängigkeiten
+          uses: actions/cache@v3
+          with:
+                path: ~/.cache/pip
+                key: ${{ runner.os }}-pip-${{hashFiles('requirements.txt') }}
+                restore-keys: |
+                    ${{ runner.os }}-pip-
+            env:
+                GITHUB_TOKEN: "${{secrets.WORKFLOW_TOKEN}}"
+
+        - name: Test 
+          run: echo "Replace this with your test command"
+
         - uses: actions/checkout@v3
           with: 
-            sparse-checkout: 
-                .github/workflows/
+                sparse-checkout: 
+                    .github/workflows/
 
-  
         - name: Run Prometheus
           run: |
-            docker run \
-              --publish=9090:9090 \
-              --detach=true \
-              --name=prometheus \
-              prom/prometheus
-  
+                docker run \
+                    --publish=9090:9090 \
+                    --detach=true \
+                    --name=prometheus \
+                    prom/prometheus
+
         - name: Run cAdvisor
           run: |
             docker run \
-              --volume=/:/rootfs:ro \
-              --volume=/var/run:/var/run:rw \
-              --volume=/sys:/sys:ro \
-              --volume=/var/lib/docker/:/var/lib/docker:ro \
-              --publish=8080:8080 \
-              --detach=true \
-              --name=cadvisor \
-              google/cadvisor:latest \
-              --storage_driver=prometheus \
-              --storage_driver_host=localhost:9090
-  
+                --volume=/:/rootfs:ro \
+                --volume=/var/run:/var/run:rw \
+                --volume=/sys:/sys:ro \
+                --volume=/var/lib/docker/:/var/lib/docker:ro \
+                --publish=8080:8080 \
+                --detach=true \
+                --name=cadvisor \
+                google/cadvisor:latest \
+                --storage_driver=prometheus \
+                --storage_driver_host=localhost:9090
+
         - name: Export Grafana dashboard as PDF
           run: |
-            sudo apt-get update -y
-            sudo apt-get install -y wkhtmltopdf
-            # Download the dashboard as a PNG image
-            curl -H "Authorization: Bearer YOUR_API_KEY" http://localhost:3000/api/dashboards/home
-            
-            # Convert the PNG image to PDF
-            wkhtmltopdf dashboard.png dashboard.pdf
-  
+            # Replace this with your command to export the Grafana dashboard as a PDF
+            export-dashboard-as-pdf --output dashboard.pdf
+            # Publish the PDF and get a URL for it
+            URL=$(cml-publish dashboard.pdf --md)
+            # Send a comment with a link to the PDF
+            cml-send-comment "Grafana Dashboard: $URL"
+
         - name: Upload Grafana dashboard as artifact
           run: |
-            git config --local user.email "Aseuc@github.com"
-            git config --local user.name "Aseuc"
-            git add ./dashboard.pdf
-            git commit -m "Add Grafana dashboard"
-            git push
+                git config --local user.email "Aseuc@github.com"
+                git config --local user.name "Aseuc"
+                git add ./dashboard.pdf
+                git commit -m "Add Grafana dashboard"
+                git push
