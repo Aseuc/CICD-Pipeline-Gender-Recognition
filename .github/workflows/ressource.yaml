@@ -38,8 +38,13 @@ jobs:
   
         - name: Export Grafana dashboard as PDF
           run: |
-            # This is a placeholder. You need to use a tool or script to export the dashboard as PDF.
-            # For example, you could use the Grafana API and a tool like wkhtmltopdf.
+            sudo apt-get update -y
+            sudo apt-get install -y wkhtmltopdf
+            # Download the dashboard as a PNG image
+            curl -o dashboard.png "http://localhost:3000/render/d-solo/000000012/grafana-play-home?orgId=1&from=1476118144346&to=1476146744346&panelId=2&width=1000&height=500&tz=Europe%2FBerlin"
+            
+            # Convert the PNG image to PDF
+            wkhtmltopdf dashboard.png dashboard.pdf
   
         - name: Upload Grafana dashboard as artifact
           run: |
