@@ -8,19 +8,9 @@ jobs:
       runs-on: [ubuntu-latest]
       container: docker://dvcorg/cml-py3:latest
       steps:
-        - name: Caching von pip Abhängigkeiten
-          uses: actions/cache@v3
-          with:
-            path: ~/.cache/pip
-            key: ${{ runner.os }}-pip-${{hashFiles('requirements.txt') }}
-            restore-keys: |
-              ${{ runner.os }}-pip-
-          env:
-            GITHUB_TOKEN: "${{secrets.WORKFLOW_TOKEN}}"
-
         - uses: actions/checkout@v2
           env:
-            repo_token: ${{ secrets.GITHUB_TOKEN }}
+            repo_token: ${{ secrets.WORKFLOW_TOKEN }}
 
         - name: ShellSkript Test
           run: |
