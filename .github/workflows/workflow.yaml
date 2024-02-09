@@ -19,17 +19,6 @@ jobs:
               test/metrics/*
               test/activation_map/*
 
-        - name: Add GPG keys
-          run: |
-            apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
-            curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
-            curl https://s3-us-east-2.amazonaws.com/dvc-s3-repo/deb/dvc.gpg | apt-key add -
-
-        - name: Install dependencies
-          run: |
-              apt-get update
-              apt-get install -y graphviz
-
         - name: ShellSkript Test
           env:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
