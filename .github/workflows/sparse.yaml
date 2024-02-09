@@ -16,6 +16,14 @@ jobs:
               model/*
               test/*
 
+        - name: Run Prometheus
+          run: |
+            docker run \
+              --publish=9090:9090 \
+              --detach=true \
+              --name=prometheus \
+              prom/prometheus
+
         - name: Run cAdvisor
           run: |
             docker run \
@@ -26,8 +34,9 @@ jobs:
               --publish=8080:8080 \
               --detach=true \
               --name=cadvisor \
-              google/cadvisor:latest
-
+              google/cadvisor:latest \
+              --storage_driver=prometheus \
+              --storage_driver_host=localhost:9090
 
 
         - name: ShellSkript Test
@@ -45,7 +54,9 @@ jobs:
             pip install torch torchvision tqdm matplotlib numpy pandas fairlearn sklearn torchcam
             python model/model_script/model_train.py 
             # python test/model_test_scripts/model_test.py 
-
-            git add model/PyTorch_Trained_Models
-            git commit -m "Add new model"
-            git push origin test
+            git config --local user.email "Aseuc@github.com"
+            git config --local user.name "Aseuc"
+            git add .
+            git commit -m "Add generated file" -a || echo "No changes to commit"
+            git push origin main
+  
