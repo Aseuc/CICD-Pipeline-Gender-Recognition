@@ -1,7 +1,7 @@
 name: CI-CD-Workflow Gender Recognition
 on:
     push:
-        branches: [test]
+        branches: [sdaf]
         
 jobs:
     build:
