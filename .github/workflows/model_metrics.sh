@@ -54,3 +54,6 @@ publish_metrics() {
 }
 
 publish_metrics 
+publish_model_metrics_noise "report_ml.md" "test/test-plots-rauschen"
+publish_model_metrics_disortion "report_ml.md" "test/test-plots-verzerrung"
+publish_model_metrics_rotation "report_ml.md" "test/test-plots-verdrehung"
