@@ -12,8 +12,10 @@ jobs:
           with:
             sparse-checkout: |
               .github
-              test/*
-              
+              test/test-plots-rauschen/*
+              test/test-plots-verzerrung/* 
+              test/test-plots-rotation/*
+
 
         - name: ShellSkript Test
           env:
