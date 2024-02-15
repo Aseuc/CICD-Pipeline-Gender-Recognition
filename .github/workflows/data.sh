@@ -40,15 +40,15 @@ update_report_with_visualization() {
 }
 
 # Update report with distribution data
-for i in ${!distribution_files[@]}; do
-  update_report ${distribution_files[$i]} ${distribution_names[$i]}
-done
+# for i in ${!distribution_files[@]}; do
+#   update_report ${distribution_files[$i]} ${distribution_names[$i]}
+# done
 
 # Update report with data visualization
 update_report_with_visualization $report_file "data/plot_data/*.png"
 
 # Create single reports
-create_single_report $report_file "Balancierte Daten Geschlechter" "data/plots_balanced/Gender_balanced.png"
-create_single_report $report_file "Balancierte Daten Jung und Alt" "data/plots_balanced/Young_balanced.png"
+# create_single_report $report_file "Balancierte Daten Geschlechter" "data/plots_balanced/Gender_balanced.png"
+# create_single_report $report_file "Balancierte Daten Jung und Alt" "data/plots_balanced/Young_balanced.png"
 
-cml-send-comment $report_file
+# cml-send-comment $report_file

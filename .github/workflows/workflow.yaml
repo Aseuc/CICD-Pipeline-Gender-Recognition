@@ -1,7 +1,7 @@
 name: Workflow Test
 on:
   push:
-    branches: [main]
+    branches: [Gender_Dataset_kaggle_23000]
     
 jobs:
   build-and-test:
@@ -19,50 +19,50 @@ jobs:
             GITHUB_TOKEN: "${{secrets.GITHUB_TOKEN}}"
         
         - uses: actions/checkout@v3
-          # with:
-          #   sparse-checkout: |
-          #     # .github/workflows/*
-          #     # requirements.txt
-          #     # data/reports_data/*
-          #     # data/plot_data/*
-          #     # data/plots_balanced/*
-          #     # data/plot_data/*
-          #     # data/reports_data/*
-          #     # data/IDs/*
-          #     # data/train-test-data/*
-          #     # data/train-test-data/train/*
-          #     # data/train-test-data/test/*
-          #     # data/train-test-data/train/men/*
-          #     # data/train-test-data/train/women/*
-          #     # data/train-test-data/test/women/*
-          #     # data/train-test-data/test/men/*
-          #     # data/source_csv/*
-          #     # test/*
-          #     # data/dataprep_scripts/*
-          #     # data/balanced_source_csv/*
-          #     # report_activation.md
-          #     # report_data_plots.md
-          #     # report_data_plots.md
-          #     # report_distribution.md
-          #     # report_ml.md
-          #     # report_test_rauschen.md
-          #     # report_test_verzerrung.md
-          #     # report_rotation.md
-          #     # model/*
-          #     # reports/*
-          #     # deploy/*
+          with:
+            sparse-checkout: |
+              # .github/workflows/*
+              # requirements.txt
+              # data/reports_data/*
+              # data/plot_data/*
+              # data/plots_balanced/*
+              # data/plot_data/*
+              # data/reports_data/*
+              # data/IDs/*
+              # data/train-test-data/*
+              # data/train-test-data/train/*
+              # data/train-test-data/test/*
+              # data/train-test-data/train/men/*
+              # data/train-test-data/train/women/*
+              # data/train-test-data/test/women/*
+              # data/train-test-data/test/men/*
+              # data/source_csv/*
+              # test/*
+              # data/dataprep_scripts/*
+              # data/balanced_source_csv/*
+              # report_activation.md
+              # report_data_plots.md
+              # report_data_plots.md
+              # report_distribution.md
+              # report_ml.md
+              # report_test_rauschen.md
+              # report_test_verzerrung.md
+              # report_rotation.md
+              # model/*
+              # reports/*
+              # deploy/*
           env:
            repo_token: ${{ secrets.GITHUB_TOKEN }}
 
-        - name: Abhängigkeiten installieren
-          run: |
-            python -m pip install --upgrade pip
-            pip install -r requirements.txt
+        # - name: Abhängigkeiten installieren
+        #   run: |
+        #     python -m pip install --upgrade pip
+        #     pip install -r requirements.txt
 
-        - name: 'Datenaufbereitung und -tests'
-          run: |
+        # - name: 'Datenaufbereitung und -tests'
+        #   run: |
             
-            python data/dataprep_scripts/datapreparation.py 
+        #     python data/dataprep_scripts/datapreparation.py 
 
         - name: Generierung und Veröffentlichung der visualisierten Daten,Tests und Verteilungen
           env:
@@ -72,55 +72,55 @@ jobs:
             ./.github/workflows/data.sh
             
        
-        - name: 'Modell trainieren'
-          env:
-            repo_token: ${{ secrets.GITHUB_TOKEN }}
-          run: |
-            python model/model_script/model_train.py
-            chmod +x .github/workflows/resource_model_train.sh
-            ./.github/workflows/resource_model_train.sh
-        - name: 'Modell testen'                   
-          run: |
-            python test/model_test_scripts/model_test.py
+        # - name: 'Modell trainieren'
+        #   env:
+        #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+  #         run: |
+  #           python model/model_script/model_train.py
+  #           chmod +x .github/workflows/resource_model_train.sh
+  #           ./.github/workflows/resource_model_train.sh
+  #       - name: 'Modell testen'                   
+  #         run: |
+  #           python test/model_test_scripts/model_test.py
 
-        - name: "Veröffenlichung der Modellmetriken und hinzufügen neuer Modelle in das Repository"
-          env:
-            repo_token: ${{ secrets.GITHUB_TOKEN }}
-          run: |
-            chmod +x .github/workflows/model.sh
-            ./.github/workflows/model.sh
-            git config --local user.email "Aseuc@github.com"
-            git config --local user.name "Aseuc"
-            git add model/PyTorch_Trained_Models
-            git add reports/*
-            git commit -m "Add trained model" || echo "No changes to commit"
-            git push origin Gender_Dataset_kaggle_23000
+  #       - name: "Veröffenlichung der Modellmetriken und hinzufügen neuer Modelle in das Repository"
+  #         env:
+  #           repo_token: ${{ secrets.GITHUB_TOKEN }}
+  #         run: |
+  #           chmod +x .github/workflows/model.sh
+  #           ./.github/workflows/model.sh
+  #           git config --local user.email "Aseuc@github.com"
+  #           git config --local user.name "Aseuc"
+  #           git add model/PyTorch_Trained_Models
+  #           git add reports/*
+  #           git commit -m "Add trained model" || echo "No changes to commit"
+  #           git push origin Gender_Dataset_kaggle_23000
         
-  deploy:
-    needs: build-and-test
-    runs-on: [ubuntu-latest]
-    container: docker://dvcorg/cml-py3:latest
-    steps:
-      - name: Caching von pip Abhängigkeiten
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-        env:
-          GITHUB_TOKEN: "${{secrets.GITHUB_TOKEN}}"
+  # deploy:
+  #   needs: build-and-test
+  #   runs-on: [ubuntu-latest]
+  #   container: docker://dvcorg/cml-py3:latest
+  #   steps:
+  #     - name: Caching von pip Abhängigkeiten
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: ~/.cache/pip
+  #         key: ${{ runner.os }}-pip-${{hashFiles('requirements.txt') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-pip-
+  #       env:
+  #         GITHUB_TOKEN: "${{secrets.GITHUB_TOKEN}}"
 
-      - uses: actions/checkout@v2
-        env:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+  #     - uses: actions/checkout@v2
+  #       env:
+  #         repo_token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: ML-Modell auf streamlit deployen
-        run: |
-          git pull origin Gender_Dataset_kaggle_23000
-          git push origin Gender_Dataset_kaggle_23000
-          git config --local user.email "Aseuc@github.com"
-          git config --local user.name "Aseuc"
-          git add .
-          git commit -m "Add generated file" -a || echo "No changes to commit"
-          git push origin Gender_Dataset_kaggle_23000
+  #     - name: ML-Modell auf streamlit deployen
+  #       run: |
+  #         git pull origin Gender_Dataset_kaggle_23000
+  #         git push origin Gender_Dataset_kaggle_23000
+  #         git config --local user.email "Aseuc@github.com"
+  #         git config --local user.name "Aseuc"
+  #         git add .
+  #         git commit -m "Add generated file" -a || echo "No changes to commit"
+  #         git push origin Gender_Dataset_kaggle_23000
