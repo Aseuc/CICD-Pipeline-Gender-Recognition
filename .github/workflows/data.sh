@@ -45,7 +45,7 @@ update_report_with_visualization() {
 # done
 
 # Update report with data visualization
-update_report_with_visualization $report_file "data/plot_data/*.png"
+update_report_with_visualization $report_file "data/plot_data/"
 
 # Create single reports
 # create_single_report $report_file "Balancierte Daten Geschlechter" "data/plots_balanced/Gender_balanced.png"
