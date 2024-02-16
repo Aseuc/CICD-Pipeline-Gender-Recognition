@@ -34,7 +34,7 @@ update_report_with_visualization() {
     local file_directory=$2
 
     for file in "$file_directory"/*; do
-        echo "\n# Datenvisualisierung für $(basename "$file" .png)" >> $report_file
+        echo "Datenvisualisierung für $(basename "$file" .png)" >> $report_file
         cml-publish "$file" --md >> $report_file
     done
     cml-send-comment $report_file
