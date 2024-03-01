@@ -53,18 +53,18 @@ class DataPreparation:
             column=DataPreparation.feature_column,
             id_column=DataPreparation.id_column,
         )
-        DataPreparation.clear_directory(
-            dir_path=DataPreparation.men_image_source_path_test
-        )
-        DataPreparation.clear_directory(
-            dir_path=DataPreparation.men_image_source_path_train
-        )
-        DataPreparation.clear_directory(
-            dir_path=DataPreparation.women_image_source_path_test
-        )
-        DataPreparation.clear_directory(
-            dir_path=DataPreparation.women_image_source_path_train
-        )
+        # DataPreparation.clear_directory(
+        #     dir_path=DataPreparation.men_image_source_path_test
+        # )
+        # DataPreparation.clear_directory(
+        #     dir_path=DataPreparation.men_image_source_path_train
+        # )
+        # DataPreparation.clear_directory(
+        #     dir_path=DataPreparation.women_image_source_path_test
+        # )
+        # DataPreparation.clear_directory(
+        #     dir_path=DataPreparation.women_image_source_path_train
+        # )
         DataPreparation.split_data_random(
             image_folder=DataPreparation.image_folder,
             male_csv=DataPreparation.male_csv,
@@ -787,7 +787,7 @@ class Main(DataPreparation, DataTest, DataBalancing, DataVisualization):
             Rückgabewert:
             - None
             """
-            self.total_images = 10
+            self.total_images = 0
             self.balanced_gender_path = "data/balanced_source_csv/gender_balanced.csv"
             self.balanced_young_path = "data/balanced_source_csv/young_balanced.csv"
             self.young_column = "Young"
@@ -803,6 +803,7 @@ class Main(DataPreparation, DataTest, DataBalancing, DataVisualization):
             self.stop_thread = False
             self.thread = threading.Thread(target=self.collect_usage)
             self.time = 0
+
     def collect_usage(self):
             """
             Sammelt die CPU- und Speicherauslastung in regelmäßigen Abständen.
@@ -836,12 +837,12 @@ class Main(DataPreparation, DataTest, DataBalancing, DataVisualization):
                 self.save_exponential_distribution_path_txt,
                 self.save_norm_distribution_path_txt,
             )
-            DataVisualization.run_datavis(
-                balanced_gender_path=self.balanced_gender_path,
-                balanced_young_path=self.balanced_young_path,
-                column_name=self.young_column,
-                feature_column=DataPreparation.feature_column,
-            )
+            # DataVisualization.run_datavis(
+            #     balanced_gender_path=self.balanced_gender_path,
+            #     balanced_young_path=self.balanced_young_path,
+            #     column_name=self.young_column,
+            #     feature_column=DataPreparation.feature_column,
+            # )
 
             DataPreparation.run_dataprep(total_images=self.total_images)
             
