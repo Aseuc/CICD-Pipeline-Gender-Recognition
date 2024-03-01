@@ -1,4 +1,4 @@
-name: Geschlechterklassifikationsmodell Workflow
+name: GenderClassificationDataset Workflow
 on:
   push: 
     branches: [GenderClassificationDataset]
