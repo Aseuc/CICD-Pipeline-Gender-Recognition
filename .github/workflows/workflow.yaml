@@ -1,7 +1,7 @@
 name: Geschlechterklassifikationsmodell Workflow
 on:
   push: 
-    branches: [main]
+    branches: [GenderClassificationDataset]
 jobs: 
   build-and-test:
       runs-on: [ubuntu-latest]
