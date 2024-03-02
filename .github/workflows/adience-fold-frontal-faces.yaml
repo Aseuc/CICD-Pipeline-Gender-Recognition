@@ -52,10 +52,6 @@ jobs:
           run: |
             python test/model_test_scripts/model_test.py
         
-        - name: Code Qualitätstests Herunterladen
-          uses: actions/download-artifact@v2
-          with:
-            name: test-results
 
         - name: "Veröffenlichung der Modellmetriken und hinzufügen neuer Modelle in das Repository"
           env:
